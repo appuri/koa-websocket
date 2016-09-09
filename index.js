@@ -30,9 +30,13 @@ KoaWebSocketServer.prototype.onConnection = function(socket) {
   context.websocket = socket;
   context.path = url.parse(socket.upgradeReq.url).pathname;
 
-  fn.bind(context).call().catch(function(err) {
-    debug(err);
-  });
+  try {
+    fn.bind(context).call().catch(function(err) {
+      debug(err);
+    });
+  } catch (e) {
+    debug(e);
+  }
 };
 
 KoaWebSocketServer.prototype.use = function (fn) {
